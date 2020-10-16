@@ -1,6 +1,7 @@
 import robin_stocks as rs
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 import config as c
 
 
@@ -23,8 +24,26 @@ for i in info:
         tickers.append(s)
 
 
+date_info = []
+price_info = []
+
 for i in tickers:
-    rc.get_crypto_historicals(i, interval='hour', span='week', bounds='24_7')
+    prices = []
+    dates = []
+    h = rc.get_crypto_historicals(i, interval='hour', span='week', bounds='24_7')
+    for x in h:
+        prices.append(x.get('close_price'))
+        dates.append(x.get('begins_at'))
+    
+    dates = pd.Series(dates)
+    dates = pd.to_datetime(dates)
+    prices = pd.Series(prices)
+    
+    date_info.append({i:dates})
+    price_info.append({i:prices})
+    
+    
+print(dates)
 
 
 
