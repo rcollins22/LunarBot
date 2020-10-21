@@ -19,7 +19,7 @@ info = rc.get_crypto_currency_pairs()
 
 tickers=[]
 for i in info:
-    if i.get('tradability') == 'tradable':
+    if i.get('tradability') == 'tradable' and i.get('symbol') != 'DOGE-USD':
         s = i.get('symbol')[:-4]
         tickers.append(s)
 
@@ -46,9 +46,20 @@ for i in tickers:
 print(dates)
 
 
-
+#"COINBASE:BCH-USD"
+#"BITFINEX:ADAUSD"
 
 # print(rc.get_crypto_historicals('DOGE', interval='hour', span='week', bounds='24_7'))
 print(tickers)
 print(np.nan)
 rs.logout()
+
+def plotting(dates,price):
+    plt.figure(figsize=(10,5))
+    plt.title('test')
+    plt.plot(dates, price, label="Closing prices")
+    # plt.yticks(np.arange(price.min(), price.max(), step=((price.max()-price.min())/15.0)))
+    plt.legend()
+    plt.show()
+
+plotting(date_info[0].get('BTC'),price_info[0].get('BTC'))
