@@ -58,8 +58,11 @@ def plotting(dates,price):
     plt.figure(figsize=(10,5))
     plt.title('test')
     plt.plot(dates, price, label="Closing prices")
-    # plt.yticks(np.arange(price.min(), price.max(), step=((price.max()-price.min())/15.0)))
+    plt.yticks(np.arange(float(price.min()), float(price.max()),10))
     plt.legend()
     plt.show()
 
 plotting(date_info[0].get('BTC'),price_info[0].get('BTC'))
+
+
+# print(type(float(price_info[0].get('BTC').min())))
