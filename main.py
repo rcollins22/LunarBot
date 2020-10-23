@@ -1,11 +1,12 @@
 import robin_stocks as rs
 import pandas as pd
+import finnhub
 import numpy as np
 import matplotlib.pyplot as plt
 import config as c
 
 
-
+f=finnhub.Client(api_key=c.finn_key)
 rc = rs.crypto
 
 rs.login(
@@ -38,31 +39,32 @@ for i in tickers:
     dates = pd.Series(dates)
     dates = pd.to_datetime(dates)
     prices = pd.Series(prices)
+    prices = prices.values
     
     date_info.append({i:dates})
     price_info.append({i:prices})
     
     
-print(dates)
+# print(dates)
 
-
+print(price_info)
 #"COINBASE:BCH-USD"
 #"BITFINEX:ADAUSD"
 
 # print(rc.get_crypto_historicals('DOGE', interval='hour', span='week', bounds='24_7'))
 print(tickers)
-print(np.nan)
-rs.logout()
 
 def plotting(dates,price):
+    print(price)
     plt.figure(figsize=(10,5))
     plt.title('test')
     plt.plot(dates, price, label="Closing prices")
-    plt.yticks(np.arange(float(price.min()), float(price.max()),10))
+    plt.yticks(float(price.min()), float(price.max()))
     plt.legend()
     plt.show()
-
+    
 plotting(date_info[0].get('BTC'),price_info[0].get('BTC'))
 
 
+rs.logout()
 # print(type(float(price_info[0].get('BTC').min())))
