@@ -33,13 +33,15 @@ for i in tickers:
     dates = []
     h = rc.get_crypto_historicals(i, interval='hour', span='week', bounds='24_7')
     for x in h:
-        prices.append(x.get('close_price'))
+        prices.append(float(x.get('close_price')))
         dates.append(x.get('begins_at'))
     
     dates = pd.Series(dates)
     dates = pd.to_datetime(dates)
+    print(dates)
+    dates=dates.values
     prices = pd.Series(prices)
-    prices = prices.values
+    # prices = prices.values
     
     date_info.append({i:dates})
     price_info.append({i:prices})
@@ -47,7 +49,7 @@ for i in tickers:
     
 # print(dates)
 
-print(price_info)
+# print(price_info)
 #"COINBASE:BCH-USD"
 #"BITFINEX:ADAUSD"
 
@@ -55,14 +57,15 @@ print(price_info)
 print(tickers)
 
 def plotting(dates,price):
-    print(price)
+    print(price_info[0].get('BTC'))
     plt.figure(figsize=(10,5))
     plt.title('test')
     plt.plot(dates, price, label="Closing prices")
-    plt.yticks(float(price.min()), float(price.max()))
+    plt.yticks(np.arange(price.min(), price.max(), step=((price.max()-price.min())/15.0)))
     plt.legend()
     plt.show()
-    
+
+print(price_info[0].get('BTC'))
 plotting(date_info[0].get('BTC'),price_info[0].get('BTC'))
 
 
