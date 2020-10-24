@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import config as c
 
 
+
 f=finnhub.Client(api_key=c.finn_key)
 rc = rs.crypto
 
@@ -47,17 +48,19 @@ for i in tickers:
     price_info.append({i:prices})
     
     
-# print(dates)
 
-# print(price_info)
 #"COINBASE:BCH-USD"
 #"BITFINEX:ADAUSD"
 
-# print(rc.get_crypto_historicals('DOGE', interval='hour', span='week', bounds='24_7'))
 print(tickers)
 
+def s_r(symbol):
+    print(f.support_resistance(symbol, '60'))
+   
+
+
+
 def plotting(dates,price):
-    print(price_info[0].get('BTC'))
     plt.figure(figsize=(10,5))
     plt.title('test')
     plt.plot(dates, price, label="Closing prices")
@@ -65,9 +68,8 @@ def plotting(dates,price):
     plt.legend()
     plt.show()
 
-print(price_info[0].get('BTC'))
-plotting(date_info[0].get('BTC'),price_info[0].get('BTC'))
+# plotting(date_info[0].get('BTC'),price_info[0].get('BTC'))
 
-
+s_r("COINBASE:BTC-USD")
 rs.logout()
 # print(type(float(price_info[0].get('BTC').min())))

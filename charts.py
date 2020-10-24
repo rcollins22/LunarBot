@@ -1,22 +1,24 @@
 import robin_stocks as rs
 import matplotlib.pyplot as plt
 import requests
+import finnhub
 from config import finn_key
 
+f=finnhub.Client(api_key=finn_key)
 
 
 
+def plotting(dates,price):
+    plt.figure(figsize=(10,5))
+    plt.title('test')
+    plt.plot(dates, price, label="Closing prices")
+    plt.yticks(np.arange(price.min(), price.max(), step=((price.max()-price.min())/15.0)))
+    plt.legend()
+    plt.show()
 
 def get_sr(symbol):
-    url = 'https://finnhub.io/api/v1/scan/support-resistance?symbol=%s&resolution=D&token=%s' % (symbol,finn_key)
-    payload = {}
-    headers = {
-    'Cookie': '__cfduid=d87ca348f6d8449fdfa644aec4b3ca8361602800210'
-    }
-
-    response = requests.request("GET", url, headers=headers, data = payload)
-    raw = response.json()
-    levels = raw.get('levels')
+    
+    f.support_resistance(symbol, '60')
 
     print(symbol + 'S/R levels are: ',levels )
 
