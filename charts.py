@@ -23,5 +23,5 @@ def get_sr(symbol):
     print(symbol + 'S/R levels are: ',levels )
 
 
-def graph(price,f1,f2,dates,symbol):
+# def graph(price,f1,f2,dates,symbol):
 

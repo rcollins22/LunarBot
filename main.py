@@ -28,48 +28,67 @@ for i in info:
 
 date_info = []
 price_info = []
+coin_info=[]
 
 for i in tickers:
     prices = []
     dates = []
-    h = rc.get_crypto_historicals(i, interval='hour', span='week', bounds='24_7')
+    h = rc.get_crypto_historicals(i, interval='hour', span='month', bounds='24_7')
     for x in h:
         prices.append(float(x.get('close_price')))
         dates.append(x.get('begins_at'))
     
     dates = pd.Series(dates)
     dates = pd.to_datetime(dates)
-    print(dates)
-    dates=dates.values
     prices = pd.Series(prices)
-    # prices = prices.values
     
     date_info.append({i:dates})
     price_info.append({i:prices})
+    coin_info.append([i,prices,dates])
     
-    
+# print(coin_info)
 
 #"COINBASE:BCH-USD"
-#"BITFINEX:ADAUSD"
+#"BITFINEX:BSVUSD"
 
 print(tickers)
 
 def s_r(symbol):
     print(f.support_resistance(symbol, '60'))
+    return f.support_resistance(symbol, '60')
    
 
+# print(date_info[0].get('BTC'))
+# sr = s_r("COINBASE:BTC-USD")
 
 
-def plotting(dates,price):
-    plt.figure(figsize=(10,5))
-    plt.title('test')
+
+
+def plotting(dates,price,symbol,ticker):
+
+    sr = s_r(ticker)
+    chg= ((price.max()-price.min())/price.min())*100
+
+    plt.figure(figsize=(10,6))
+    plt.title('%s Analysis %s' % (symbol,chg) )
     plt.plot(dates, price, label="Closing prices")
+    
+    for lvl in sr.get('levels'):
+        plt.hlines(lvl,dates.min(),dates.max(),colors='#A70F0F')
+    
     plt.yticks(np.arange(price.min(), price.max(), step=((price.max()-price.min())/15.0)))
     plt.legend()
     plt.show()
 
-# plotting(date_info[0].get('BTC'),price_info[0].get('BTC'))
+for coin in coin_info:
+    if coin[0] == 'BSV':
+        ticker ='BITFINEX:BSVUSD'
+    else:
+        ticker = 'COINBASE:%s-USD' % coin[0]
+    
+    plotting(coin[2],coin[1],coin[0],ticker)
 
-s_r("COINBASE:BTC-USD")
+
+
+
 rs.logout()
-# print(type(float(price_info[0].get('BTC').min())))
