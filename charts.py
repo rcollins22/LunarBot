@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import requests
 import finnhub
 from config import finn_key
+import ta
 
 f=finnhub.Client(api_key=finn_key)
 
@@ -20,7 +21,7 @@ def get_sr(symbol):
     
     f.support_resistance(symbol, '60')
 
-    print(symbol + 'S/R levels are: ',levels )
+    print(symbol + ' S/R levels are: ',levels )
 
 
 # def graph(price,f1,f2,dates,symbol):

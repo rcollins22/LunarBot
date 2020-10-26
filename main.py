@@ -4,6 +4,7 @@ import finnhub
 import numpy as np
 import matplotlib.pyplot as plt
 import config as c
+import ta
 
 
 
@@ -26,9 +27,8 @@ for i in info:
         tickers.append(s)
 
 
-date_info = []
-price_info = []
-coin_info=[]
+coin_info = []
+
 
 for i in tickers:
     prices = []
@@ -41,12 +41,9 @@ for i in tickers:
     dates = pd.Series(dates)
     dates = pd.to_datetime(dates)
     prices = pd.Series(prices)
-    
-    date_info.append({i:dates})
-    price_info.append({i:prices})
+
     coin_info.append([i,prices,dates])
     
-# print(coin_info)
 
 #"COINBASE:BCH-USD"
 #"BITFINEX:BSVUSD"
@@ -58,9 +55,7 @@ def s_r(symbol):
     return f.support_resistance(symbol, '60')
    
 
-# print(date_info[0].get('BTC'))
-# sr = s_r("COINBASE:BTC-USD")
-
+print(ta.trend.ema_indicator(coin_info[0][1], n=50, fillna=True))
 
 
 
@@ -72,9 +67,14 @@ def plotting(dates,price,symbol,ticker):
     plt.figure(figsize=(10,6))
     plt.title('%s Analysis %s' % (symbol,chg) )
     plt.plot(dates, price, label="Closing prices")
-    
+    t = ta.trend.ema_indicator(coin[1], n=9, fillna=False)
+    l = ta.trend.ema_indicator(coin[1], n=21, fillna=False)
+    z = ta.trend.ema_indicator(coin[1], n=55, fillna=False)
+    plt.plot(dates,z,label=' 55 EMA', color='#B60404')
+    plt.plot(dates,t,label='9 EMA', color='#1D8319')
+    plt.plot(dates,l,label='21 EMA', color='#F39839')
     for lvl in sr.get('levels'):
-        plt.hlines(lvl,dates.min(),dates.max(),colors='#A70F0F')
+        plt.hlines(lvl,dates.min(),dates.max(),colors='#4B4473')
     
     plt.yticks(np.arange(price.min(), price.max(), step=((price.max()-price.min())/15.0)))
     plt.legend()
@@ -87,7 +87,6 @@ for coin in coin_info:
         ticker = 'COINBASE:%s-USD' % coin[0]
     
     plotting(coin[2],coin[1],coin[0],ticker)
-
 
 
 
