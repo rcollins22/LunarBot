@@ -3,7 +3,7 @@ import pandas as pd
 import finnhub
 import numpy as np
 import matplotlib.pyplot as plt
-from plotting import coin_info
+from plotting import coin_info,select_chart,tickers
 import config as c
 import ta
 
@@ -30,7 +30,7 @@ series = [coin_info[0][1].rename('Price'), coin_info[0][2].rename('Dates'), st.r
 
 coin_df = pd.concat(series, axis=1)
 
-
+select_chart(tickers)
 # for i in coin_df:
 
 print(coin_df.head(100))

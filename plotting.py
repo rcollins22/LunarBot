@@ -49,8 +49,8 @@ for i in tickers:
 
 
 def s_r(symbol):
-    print(f.support_resistance(symbol, '60'))
-    return f.support_resistance(symbol, '60')
+    print(f.support_resistance(symbol, '30'))
+    return f.support_resistance(symbol, '30')
    
 
 
@@ -64,12 +64,12 @@ def plotting(dates,price,symbol,ticker):
     plt.figure(figsize=(14,10))
     plt.title('%s Analysis %s' % (symbol,chg) )
     plt.plot(dates, price, label="Closing prices")
-    t = ta.trend.ema_indicator(price, n=12, fillna=False)
-    l = ta.trend.ema_indicator(price, n=26, fillna=False)
+    t = ta.trend.ema_indicator(price, n=50, fillna=False)
+    l = ta.trend.ema_indicator(price, n=200, fillna=False)
     # z = ta.trend.ema_indicator(coin[1], n=55, fillna=False)
     # plt.plot(dates,z,label=' 55 EMA', color='#B60404')
-    plt.plot(dates,t,label='12 EMA', color='#1D8319')
-    plt.plot(dates,l,label='26 EMA', color='#F39839')
+    plt.plot(dates,t,label='50 EMA', color='#1D8319')
+    plt.plot(dates,l,label='200 EMA', color='#F39839')
     for lvl in sr.get('levels'):
         plt.hlines(lvl,dates.min(),dates.max(),colors='#4B4473')
     
