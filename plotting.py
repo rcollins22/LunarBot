@@ -100,7 +100,10 @@ def select_chart(tickers):
             ticker = 'COINBASE:%s-USD' % plot_chart
             for x in coin_info:
                 if plot_chart == x[0]:
-                    plotting(x[2],x[1],x[0],ticker)    
+                    plotting(x[2],x[1],x[0],ticker)
+    again = input("Plot Another?")
+    if again == "y":
+        select_chart(tickers) 
 
 
 #------------------------------------------------------------------------------------------------------------
